@@ -5,6 +5,9 @@ export default defineConfig(({ mode }) => {
   // Load env file based on `mode`
   const env = loadEnv(mode, process.cwd(), '');
 
+  // Check if we're building for GitHub Pages
+  const isGitHubPages = process.env.GITHUB_ACTIONS === 'true';
+
   return {
     root: '.',
     build: {
@@ -44,6 +47,8 @@ export default defineConfig(({ mode }) => {
     optimizeDeps: {
       include: ['js/**/*.ts'],
     },
+    // Base path for GitHub Pages
+    base: isGitHubPages ? '/Web-Engineering-ILV-1st-Playground/' : '/',
     // Environment-specific configurations
     define: {
       __APP_ENV__: JSON.stringify(env.APP_ENV || mode),
