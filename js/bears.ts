@@ -5,14 +5,20 @@ interface Bear {
   range: string;
 }
 
+interface WikipediaPage {
+  imageinfo?: Array<{ url: string }>;
+}
+
+interface WikipediaPages {
+  [key: string]: WikipediaPage;
+}
+
+interface WikipediaQuery {
+  pages?: WikipediaPages;
+}
+
 interface WikipediaResponse {
-  query?: {
-    pages: {
-      [key: string]: {
-        imageinfo?: Array<{ url: string }>;
-      };
-    };
-  };
+  query?: WikipediaQuery;
   parse?: {
     wikitext: {
       '*': string;
@@ -35,7 +41,7 @@ export const initializeBearData = async (): Promise<void> => {
       if (!response.ok) {
         throw new Error(`Wikipedia API request failed: ${response.status}`);
       }
-      return await response.json();
+      return (await response.json()) as WikipediaResponse;
     } catch (err) {
       console.error('Error fetching from Wikipedia API:', err);
       throw new Error('Could not fetch data from Wikipedia.');
@@ -73,10 +79,11 @@ export const initializeBearData = async (): Promise<void> => {
       const pages = data.query?.pages;
       if (!pages) return PLACEHOLDER_IMG;
 
-      const page = Object.values(pages)[0] as {
-        imageinfo?: Array<{ url: string }>;
-      };
+      // Type-safe approach
+      const pageValues: WikipediaPage[] = Object.values(pages);
+      if (pageValues.length === 0) return PLACEHOLDER_IMG;
 
+      const page = pageValues[0];
       const url = page.imageinfo ? page.imageinfo[0].url : PLACEHOLDER_IMG;
       return await validateImageUrl(url);
     } catch (err) {
