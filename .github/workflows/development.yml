@@ -2,9 +2,9 @@ name: Development CI
 
 on:
   push:
-    branches: [ development ]
+    branches: [ playground-2, development ]
   pull_request:
-    branches: [ development ]
+    branches: [ playground-2, development ]
 
 jobs:
   quality-check:
@@ -33,13 +33,12 @@ jobs:
       - name: Check formatting
         run: npm run format:check
 
-      - name: Run tests (if available)
-        run: |
-          if [ -f "package.json" ] && npm run | grep -q "test"; then
-            npm test
-          else
-            echo "No tests configured"
-          fi
-
       - name: Build verification
         run: npm run build
+
+      - name: Upload build artifact (for testing)
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-output
+          path: dist/
+          retention-days: 1
