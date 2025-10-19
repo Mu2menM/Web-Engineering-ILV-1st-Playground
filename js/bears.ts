@@ -1,150 +1,164 @@
 interface Bear {
-    name: string;
-    binomial: string;
-    imageUrl: string;
-    range: string;
+  name: string;
+  binomial: string;
+  imageUrl: string;
+  range: string;
 }
 
 interface WikipediaResponse {
-    query?: {
-        pages: {
-            [key: string]: {
+  query?: {
+    pages: {
+      [key: string]: {
         imageinfo?: Array<{ url: string }>;
+      };
     };
-};
-};
-    parse?: {
-        wikitext: {
-            '*': string;
-        };
+  };
+  parse?: {
+    wikitext: {
+      '*': string;
     };
+  };
 }
 
 export const initializeBearData = async (): Promise<void> => {
-    const BASE_URL = "https://en.wikipedia.org/w/api.php";
-    const PAGE_TITLE = "List_of_ursids";
-    const PLACEHOLDER_IMG = "https://upload.wikimedia.org/wikipedia/commons/8/89/HD_transparent_picture.png";
+  const BASE_URL = 'https://en.wikipedia.org/w/api.php';
+  const PAGE_TITLE = 'List_of_ursids';
+  const PLACEHOLDER_IMG =
+    'https://upload.wikimedia.org/wikipedia/commons/8/89/HD_transparent_picture.png';
 
-    const fetchFromWiki = async (params: { [key: string]: string }): Promise<WikipediaResponse> => {
-        const url = `${BASE_URL}?${new URLSearchParams({ ...params, origin: "*" })}`;
-        try {
-            const response = await fetch(url);
-            if (!response.ok) {
-                throw new Error(`Wikipedia API request failed: ${response.status}`);
-            }
-            return await response.json();
-        } catch (err) {
-            console.error("Error fetching from Wikipedia API:", err);
-            throw new Error("Could not fetch data from Wikipedia.");
-        }
-    };
+  const fetchFromWiki = async (params: {
+    [key: string]: string;
+  }): Promise<WikipediaResponse> => {
+    const url = `${BASE_URL}?${new URLSearchParams({ ...params, origin: '*' })}`;
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`Wikipedia API request failed: ${response.status}`);
+      }
+      return await response.json();
+    } catch (err) {
+      console.error('Error fetching from Wikipedia API:', err);
+      throw new Error('Could not fetch data from Wikipedia.');
+    }
+  };
 
-    const validateImageUrl = async (url: string): Promise<string> => {
-        try {
-            const response = await fetch(url, { method: "HEAD" });
-            if (!response.ok) {
-                console.warn(`Image URL invalid: ${url} - Status: ${response.status}`);
-                return PLACEHOLDER_IMG;
-            }
-            console.log(`Image URL validated successfully: ${url}`);
-            return url;
-        } catch (error) {
-            console.warn(`Image validation failed for ${url}:`, error);
-            return PLACEHOLDER_IMG;
-        }
-    };
+  const validateImageUrl = async (url: string): Promise<string> => {
+    try {
+      const response = await fetch(url, { method: 'HEAD' });
+      if (!response.ok) {
+        console.warn(`Image URL invalid: ${url} - Status: ${response.status}`);
+        return PLACEHOLDER_IMG;
+      }
+      console.log(`Image URL validated successfully: ${url}`);
+      return url;
+    } catch (error) {
+      console.warn(`Image validation failed for ${url}:`, error);
+      return PLACEHOLDER_IMG;
+    }
+  };
 
-    console.log("FIXED: Consistent error handling with proper logging");
+  console.log('FIXED: Consistent error handling with proper logging');
 
-    const getImageUrl = async (fileName: string | null): Promise<string> => {
-        if (!fileName) return PLACEHOLDER_IMG;
-        try {
-            const data = await fetchFromWiki({
-                action: "query",
-                titles: `File:${fileName}`,
-                prop: "imageinfo",
-                iiprop: "url",
-                format: "json",
-            });
+  const getImageUrl = async (fileName: string | null): Promise<string> => {
+    if (!fileName) return PLACEHOLDER_IMG;
+    try {
+      const data = await fetchFromWiki({
+        action: 'query',
+        titles: `File:${fileName}`,
+        prop: 'imageinfo',
+        iiprop: 'url',
+        format: 'json',
+      });
 
-            const page = Object.values(data.query?.pages || {})[0] as any;
-            const url = page.imageinfo ? page.imageinfo[0].url : PLACEHOLDER_IMG;
-            return await validateImageUrl(url);
-        } catch (err) {
-            console.warn(`Failed to fetch image for ${fileName}:`, err);
-            return PLACEHOLDER_IMG;
-        }
-    };
+      const pages = data.query?.pages;
+      if (!pages) return PLACEHOLDER_IMG;
 
-    const extractBears = async (wikitext: string): Promise<Bear[]> => {
-        const rows = wikitext.split("{{Species table/row");
-        const bears: Bear[] = [];
+      const page = Object.values(pages)[0] as {
+        imageinfo?: Array<{ url: string }>;
+      };
 
-        for (const row of rows) {
-            const nameMatch = row.match(/\|name=\[\[(.*?)\]\]/);
-            const binomialMatch = row.match(/\|binomial=(.*?)\n/);
-            const imageMatch = row.match(/\|image=(.*?)\n/);
-            const rangeMatch = row.match(/\|range=(.*?)\n/);
+      const url = page.imageinfo ? page.imageinfo[0].url : PLACEHOLDER_IMG;
+      return await validateImageUrl(url);
+    } catch (err) {
+      console.warn(`Failed to fetch image for ${fileName}:`, err);
+      return PLACEHOLDER_IMG;
+    }
+  };
 
-            if (nameMatch && binomialMatch) {
-                const fileName = imageMatch
-                    ? imageMatch[1].trim().replace("File:", "")
-                    : null;
-                const range = rangeMatch
-                    ? rangeMatch[1].split("|")[0].trim()
-                    : "Unknown";
+  const extractBears = async (wikitext: string): Promise<Bear[]> => {
+    const rows = wikitext.split('{{Species table/row');
+    const bears: Bear[] = [];
 
-                bears.push({
-                    name: nameMatch[1],
-                    binomial: binomialMatch[1].trim(),
-                    imageUrl: await getImageUrl(fileName),
-                    range,
-                });
-            }
-        }
-        return bears;
-    };
+    for (const row of rows) {
+      const nameMatch = row.match(/\|name=\[\[(.*?)\]\]/);
+      const binomialMatch = row.match(/\|binomial=(.*?)\n/);
+      const imageMatch = row.match(/\|image=(.*?)\n/);
+      const rangeMatch = row.match(/\|range=(.*?)\n/);
 
-    const renderBears = (bears: Bear[]): void => {
-        const container = document.querySelector<HTMLDivElement>(".more_bears .bear-list");
-        if (!container) return;
+      if (nameMatch?.[1] && binomialMatch?.[1]) {
+        const fileName = imageMatch?.[1]
+          ? imageMatch[1].trim().replace('File:', '')
+          : null;
+        const range = rangeMatch?.[1]
+          ? rangeMatch[1].split('|')[0].trim()
+          : 'Unknown';
 
-        if (!bears.length) {
-            container.innerHTML = `<p style="color:red;">No bear data found.</p>`;
-            return;
-        }
+        bears.push({
+          name: nameMatch[1],
+          binomial: binomialMatch[1].trim(),
+          imageUrl: await getImageUrl(fileName),
+          range,
+        });
+      }
+    }
+    return bears;
+  };
 
-        container.innerHTML = bears
-            .map(
-                (bear) => `
+  const renderBears = (bears: Bear[]): void => {
+    const container = document.querySelector<HTMLDivElement>(
+      '.more_bears .bear-list'
+    );
+    if (!container) return;
+
+    if (!bears.length) {
+      container.innerHTML = '<p style="color:red;">No bear data found.</p>';
+      return;
+    }
+
+    container.innerHTML = bears
+      .map(
+        (bear) => `
         <div class="bear">
           <img src="${bear.imageUrl}" alt="Image of ${bear.name}" style="width:200px; height:auto;">
           <p><b>${bear.name}</b> (${bear.binomial})</p>
           <p>Range: ${bear.range}</p>
         </div>`
-            )
-            .join("");
-    };
+      )
+      .join('');
+  };
 
-    try {
-        const data = await fetchFromWiki({
-            action: "parse",
-            page: PAGE_TITLE,
-            prop: "wikitext",
-            format: "json",
-        });
+  try {
+    const data = await fetchFromWiki({
+      action: 'parse',
+      page: PAGE_TITLE,
+      prop: 'wikitext',
+      format: 'json',
+    });
 
-        if (!data.parse?.wikitext?.['*']) {
-            throw new Error("No wikitext found in response");
-        }
-
-        const bears = await extractBears(data.parse.wikitext['*']);
-        renderBears(bears);
-    } catch (error) {
-        console.error("Error loading bear data:", error);
-        const container = document.querySelector<HTMLDivElement>(".more_bears .bear-list");
-        if (container) {
-            container.innerHTML = `<p style="color:red;"> Failed to load bear data. Please try again later.</p>`;
-        }
+    if (!data.parse?.wikitext?.['*']) {
+      throw new Error('No wikitext found in response');
     }
+
+    const bears = await extractBears(data.parse.wikitext['*']);
+    renderBears(bears);
+  } catch (error) {
+    console.error('Error loading bear data:', error);
+    const container = document.querySelector<HTMLDivElement>(
+      '.more_bears .bear-list'
+    );
+    if (container) {
+      container.innerHTML =
+        '<p style="color:red;"> Failed to load bear data. Please try again later.</p>';
+    }
+  }
 };
