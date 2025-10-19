@@ -14,18 +14,23 @@
     "serve": "vite preview",
     "type-check": "tsc --noEmit",
     "clean": "rm -rf dist",
-    "build:production": "npm run clean && npm run type-check && npm run lint && npm run build"
+    "build:production": "npm run clean && npm run type-check && npm run lint && npm run build",
+    "prepare": "husky",
+    "pre-commit": "lint-staged"
   },
-  "keywords": ["wildlife", "website", "typescript", "vite"],
+  "keywords": [
+    "wildlife",
+    "website",
+    "typescript",
+    "vite"
+  ],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "vite": "^7.1.10",
     "@vitejs/plugin-legacy": "^7.2.1",
-
     "typescript": "^5.9.3",
     "@types/node": "^24.8.1",
-
     "eslint": "^9.38.0",
     "@eslint/js": "^9.38.0",
     "@typescript-eslint/eslint-plugin": "^8.46.1",
@@ -33,7 +38,17 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
     "prettier": "^3.6.2",
-
+    "husky": "^9.1.6",
+    "lint-staged": "^15.2.10",
     "globals": "^16.4.0"
+  },
+  "lint-staged": {
+    "**/*.{ts,js}": [
+      "prettier --write",
+      "eslint --fix"
+    ],
+    "**/*.{json,md,html,css}": [
+      "prettier --write"
+    ]
   }
 }

@@ -1,5 +1,6 @@
 # Build Process Documentation
 
+## Required NPM Scripts (Task 2)
 
 ### Core Development
 - `npm run dev` - Starts the development server using Vite
@@ -11,18 +12,22 @@
 - `npm run format` - Formats all `.js` and `.ts` files in the `/js` directory using Prettier
 - `npm run format:check` - Checks if files in `/js` directory are formatted according to Prettier's rules
 
-## Additional Useful Commands
+## Git Hooks with Husky & lint-staged
 
-### Type Checking
-- `npm run type-check` - Run TypeScript compiler without emitting files
-- `npm run build:types` - Alias for type checking
+### Pre-commit Hook
+Automatically runs on every `git commit`:
+- **Formats** all staged TypeScript, JavaScript, JSON, Markdown, HTML, and CSS files with Prettier
+- **Lints and fixes** all staged TypeScript and JavaScript files with ESLint
+- **Prevents commit** if there are unfixable linting errors
 
-### Build Management
-- `npm run clean` - Clean dist directory
-- `npm run build:production` - Full production build with all quality checks
-- `npm run preview` - Preview production build locally
-- `npm run serve` - Alias for preview
+### Configuration Files
+- `.husky/pre-commit` - Husky hook configuration
+- `package.json` → `lint-staged` - File patterns and commands
 
-### Quality Assurance
-- `npm run qa` - Run all quality checks (types + lint + format)
-- `npm run ci` - Continuous integration check (types + lint:fix + format:check + build)
+### Manual Testing
+# Test the pre-commit hook manually
+npx lint-staged
+
+# Or via npm script
+npm run pre-commit
+Additional Useful Commands
