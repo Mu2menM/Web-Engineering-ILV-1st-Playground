@@ -21,5 +21,3 @@ console.log('Performance optimization with DocumentFragment');
 console.log('Accessibility improvements with semantic HTML');
 console.log('Proper logging and debugging support');
 console.groupEnd();
-
-console.log('Test pre-commit ! ');
