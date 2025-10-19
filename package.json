@@ -5,34 +5,27 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "type-check": "tsc --noEmit",
-    "lint": "eslint . --ext .ts,.js",
-    "lint:fix": "eslint . --ext .ts,.js --fix",
-    "format": "prettier --write \"**/*.{ts,js,json,css,md,html}\"",
-    "format:check": "prettier --check \"**/*.{ts,js,json,css,md,html}\"",
-    "build:types": "tsc --noEmit",
-    "build:lint": "npm run lint",
-    "build:clean": "rm -rf dist",
-    "build:assets": "vite build",
-    "build": "npm run build:clean && npm run build:types && npm run build:assets",
-    "build:production": "npm run build:clean && npm run build:types && npm run lint && npm run build:assets",
-    "build:dev": "npm run build:clean && npm run build:assets",
+    "build": "tsc --noEmit && vite build",
+    "lint": "eslint ./js --ext .ts,.js",
+    "lint:fix": "eslint ./js --ext .ts,.js --fix",
+    "format": "prettier --write \"./js/**/*.{ts,js}\"",
+    "format:check": "prettier --check \"./js/**/*.{ts,js}\"",
     "preview": "vite preview",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf dist",
+    "build:production": "npm run clean && npm run type-check && npm run lint && npm run build"
   },
-  "keywords": [
-    "wildlife",
-    "website",
-    "typescript",
-    "vite"
-  ],
+  "keywords": ["wildlife", "website", "typescript", "vite"],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "vite": "^7.1.10",
     "@vitejs/plugin-legacy": "^7.2.1",
+
     "typescript": "^5.9.3",
     "@types/node": "^24.8.1",
+
     "eslint": "^9.38.0",
     "@eslint/js": "^9.38.0",
     "@typescript-eslint/eslint-plugin": "^8.46.1",
@@ -40,6 +33,7 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
     "prettier": "^3.6.2",
+
     "globals": "^16.4.0"
   }
 }
