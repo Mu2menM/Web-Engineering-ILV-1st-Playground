@@ -1,13 +1,12 @@
-import { initializeSearchHighlighter } from "./search.js";
-import { initializeComments } from "./comments.js";
-import { initializeBearData } from "./bears.js";
+import { initializeSearchHighlighter } from "./search.ts";
+import { initializeComments } from "./comments.ts";
+import { initializeBearData } from "./bears.ts";
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", (): void => {
     initializeSearchHighlighter();
     initializeComments();
     initializeBearData();
 });
-
 
 console.log("BAD PRACTICES ANALYSIS SUMMARY");
 console.table({

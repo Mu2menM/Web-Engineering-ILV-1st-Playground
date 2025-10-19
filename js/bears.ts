@@ -1,10 +1,31 @@
-export const initializeBearData = async () => {
+interface Bear {
+    name: string;
+    binomial: string;
+    imageUrl: string;
+    range: string;
+}
+
+interface WikipediaResponse {
+    query?: {
+        pages: {
+            [key: string]: {
+        imageinfo?: Array<{ url: string }>;
+    };
+};
+};
+    parse?: {
+        wikitext: {
+            '*': string;
+        };
+    };
+}
+
+export const initializeBearData = async (): Promise<void> => {
     const BASE_URL = "https://en.wikipedia.org/w/api.php";
     const PAGE_TITLE = "List_of_ursids";
-    const PLACEHOLDER_IMG =
-        "https://upload.wikimedia.org/wikipedia/commons/8/89/HD_transparent_picture.png";
+    const PLACEHOLDER_IMG = "https://upload.wikimedia.org/wikipedia/commons/8/89/HD_transparent_picture.png";
 
-    const fetchFromWiki = async (params) => {
+    const fetchFromWiki = async (params: { [key: string]: string }): Promise<WikipediaResponse> => {
         const url = `${BASE_URL}?${new URLSearchParams({ ...params, origin: "*" })}`;
         try {
             const response = await fetch(url);
@@ -18,7 +39,7 @@ export const initializeBearData = async () => {
         }
     };
 
-    const validateImageUrl = async (url) => {
+    const validateImageUrl = async (url: string): Promise<string> => {
         try {
             const response = await fetch(url, { method: "HEAD" });
             if (!response.ok) {
@@ -28,13 +49,14 @@ export const initializeBearData = async () => {
             console.log(`Image URL validated successfully: ${url}`);
             return url;
         } catch (error) {
-            console.warn(`Image validation failed for ${url}:`, error.message);
+            console.warn(`Image validation failed for ${url}:`, error);
             return PLACEHOLDER_IMG;
         }
     };
+
     console.log("FIXED: Consistent error handling with proper logging");
 
-    const getImageUrl = async (fileName) => {
+    const getImageUrl = async (fileName: string | null): Promise<string> => {
         if (!fileName) return PLACEHOLDER_IMG;
         try {
             const data = await fetchFromWiki({
@@ -45,7 +67,7 @@ export const initializeBearData = async () => {
                 format: "json",
             });
 
-            const page = Object.values(data.query.pages)[0];
+            const page = Object.values(data.query?.pages || {})[0] as any;
             const url = page.imageinfo ? page.imageinfo[0].url : PLACEHOLDER_IMG;
             return await validateImageUrl(url);
         } catch (err) {
@@ -54,9 +76,9 @@ export const initializeBearData = async () => {
         }
     };
 
-    const extractBears = async (wikitext) => {
+    const extractBears = async (wikitext: string): Promise<Bear[]> => {
         const rows = wikitext.split("{{Species table/row");
-        const bears = [];
+        const bears: Bear[] = [];
 
         for (const row of rows) {
             const nameMatch = row.match(/\|name=\[\[(.*?)\]\]/);
@@ -83,8 +105,8 @@ export const initializeBearData = async () => {
         return bears;
     };
 
-    const renderBears = (bears) => {
-        const container = document.querySelector(".more_bears .bear-list");
+    const renderBears = (bears: Bear[]): void => {
+        const container = document.querySelector<HTMLDivElement>(".more_bears .bear-list");
         if (!container) return;
 
         if (!bears.length) {
@@ -112,11 +134,15 @@ export const initializeBearData = async () => {
             format: "json",
         });
 
-        const bears = await extractBears(data.parse.wikitext["*"]);
+        if (!data.parse?.wikitext?.['*']) {
+            throw new Error("No wikitext found in response");
+        }
+
+        const bears = await extractBears(data.parse.wikitext['*']);
         renderBears(bears);
     } catch (error) {
         console.error("Error loading bear data:", error);
-        const container = document.querySelector(".more_bears .bear-list");
+        const container = document.querySelector<HTMLDivElement>(".more_bears .bear-list");
         if (container) {
             container.innerHTML = `<p style="color:red;"> Failed to load bear data. Please try again later.</p>`;
         }

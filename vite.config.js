@@ -1,4 +1,3 @@
-// vite.config.js
 import { defineConfig } from 'vite';
 
 export default defineConfig({
@@ -16,5 +15,10 @@ export default defineConfig({
         port: 3000,
         open: true
     },
-    publicDir: 'media'
+    publicDir: 'media',
+    resolve: {
+        alias: {
+            '@': '/'
+        }
+    }
 });

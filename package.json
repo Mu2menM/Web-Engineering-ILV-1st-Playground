@@ -2,12 +2,13 @@
   "name": "web-engineering-ilv-1st-playground",
   "version": "1.0.0",
   "description": "This repository is designed as the foundation for coding playgrounds in the Web Engineering course. It offers a structured space for experimenting with and mastering various web development technologies and practices. \r The project is based on [this](https://developer.mozilla.org/en-US/docs/Learn/Accessibility/Accessibility_troubleshooting) repository from MDN.",
-  "main": "index.js",
+  "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "tsc && vite build",
     "preview": "vite preview",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "type-check": "tsc --noEmit"
   },
   "keywords": [],
   "author": "",
