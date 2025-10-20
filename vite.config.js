@@ -19,9 +19,8 @@ export default defineConfig({
     open: true,
   },
   publicDir: 'media',
-  // Important: Base path for GitHub Pages
   base:
     process.env.NODE_ENV === 'production'
-      ? '/Web-Engineering-ILV-1st-Playground/'
+      ? '/web-engineering-ilv-1st-playground/'
       : '/',
 });
