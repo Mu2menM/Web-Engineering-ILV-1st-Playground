@@ -21,6 +21,6 @@ export default defineConfig({
   publicDir: 'media',
   base:
     process.env.NODE_ENV === 'production'
-      ? '/web-engineering-ilv-1st-playground/'
+      ? '/web-engineering-ilv-1st-playground'
       : '/',
 });
