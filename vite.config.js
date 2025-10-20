@@ -19,8 +19,9 @@ export default defineConfig({
     open: true,
   },
   publicDir: 'media',
+  // Use consistent base path
   base:
     process.env.NODE_ENV === 'production'
-      ? '/web-engineering-ilv-1st-playground'
+      ? '/web-engineering-ilv-1st-playground/'
       : '/',
 });
