@@ -2,33 +2,21 @@
 import { defineConfig, loadEnv } from 'vite';
 
 export default defineConfig(({ mode }) => {
-  // Load env file based on `mode`
   const env = loadEnv(mode, process.cwd(), '');
 
-  // Check if we're building for GitHub Pages
   const isGitHubPages = process.env.GITHUB_ACTIONS === 'true';
+  const repoName = 'Web-Engineering-ILV-1st-Playground';
 
   return {
     root: '.',
     build: {
       outDir: 'dist',
       assetsDir: 'assets',
-      sourcemap: mode === 'development',
-      minify: mode === 'production' ? 'esbuild' : false,
+      sourcemap: false,
+      minify: 'esbuild',
       rollupOptions: {
         input: {
           main: './index.html',
-        },
-        output: {
-          assetFileNames: (assetInfo) => {
-            let extType = assetInfo.name.split('.').at(1);
-            if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(extType)) {
-              extType = 'img';
-            }
-            return `assets/${extType}/[name]-[hash][extname]`;
-          },
-          chunkFileNames: 'assets/js/[name]-[hash].js',
-          entryFileNames: 'assets/js/[name]-[hash].js',
         },
       },
       emptyOutDir: true,
@@ -38,20 +26,6 @@ export default defineConfig(({ mode }) => {
       open: true,
     },
     publicDir: 'media',
-    resolve: {
-      alias: {
-        '@': '/src',
-        '~': '/',
-      },
-    },
-    optimizeDeps: {
-      include: ['js/**/*.ts'],
-    },
-    // Base path for GitHub Pages
-    base: isGitHubPages ? '/Web-Engineering-ILV-1st-Playground/' : '/',
-    // Environment-specific configurations
-    define: {
-      __APP_ENV__: JSON.stringify(env.APP_ENV || mode),
-    },
+    base: isGitHubPages ? `/${repoName}/` : '/',
   };
 });
