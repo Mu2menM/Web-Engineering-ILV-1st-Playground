@@ -23,8 +23,10 @@
         <li><a href="#">Blog</a></li>
     </ul>
 
-    <form class="search" role="search"><label for="search-query" class="visually-hidden">Search query</label> <input
-            type="search" id="search-query" name="q" placeholder="Search query">
+    <form class="search" role="search">
+        <!-- FIX: Label is hidden visually but readable by screen readers -->
+        <label for="search-query" class="visually-hidden">Search query</label>
+        <input type="search" name="q" id="search-query" placeholder="Search query">
         <input type="submit" value="Go!">
     </form>
 </nav>
@@ -107,6 +109,7 @@
                 <h2>Add comment</h2>
                 <form class="comment-form">
                     <div class="flex-pair">
+                        <!-- FIX: Wrapped text in label and matched 'for' with input 'id' -->
                         <label for="name">Your name:</label>
                         <input type="text" name="name" id="name" placeholder="Enter your name">
                     </div>

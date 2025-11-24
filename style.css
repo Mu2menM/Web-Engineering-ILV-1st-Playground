@@ -78,6 +78,7 @@ footer,
 
 article {
   margin-right: 10px;
+  flex: 5;
 }
 
 nav.nav {
@@ -118,7 +119,7 @@ nav.nav .search {
   position: relative;
 }
 
-/* Utility class for accessible hidden labels */
+/* Utility class to hide content visually while keeping it accessible to screen readers */
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -152,10 +153,6 @@ nav.nav .search {
 
 main {
   display: flex;
-}
-
-article {
-  flex: 5;
 }
 
 .secondary {
