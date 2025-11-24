@@ -89,3 +89,42 @@ After these changes:
 - Users can jump to the Navigation region instantly
 - Keyboard-only users can Tab to the "Show comment" button and activate it with Enter/Space
 - Form inputs are clearly announced with their accessible names
+
+## Audio Content
+
+## 1. Issue Identified
+
+| Issue              | Description                                                                                        | Impact on User                                                                                                         |
+|--------------------|----------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
+| Missing Transcript | The audio player presents spoken content ("Mating rituals" commentary) without a text alternative. | **Critical:** Deaf and hard-of-hearing users are completely excluded from the information contained in the audio clip. |
+
+## 2. Fix Applied
+
+**Text Transcript**
+
+We added a text transcript immediately following the audio player. To keep the visual design clean while maintaining
+accessibility, we used the semantic HTML5 `<details>` and `<summary>` elements.
+
+**Code Implementation:**
+
+```html
+
+<details>
+    <summary>Show audio transcript</summary>
+    <div class="transcript-content">
+        <p>"This isn't really an audio fact file about bears, but it is an audio file that you can transcribe."</p>
+    </div>
+</details>
+```
+
+### Benefits of this approach:
+
+- Screen Readers: The transcript is fully accessible to screen readers
+- Visual Clarity: The content is hidden by default, preventing page clutter for users who don't need it
+- No JavaScript: The toggle functionality works natively in the browser without requiring extra scripts
+
+### Validation Results
+
+- Users can click "Show audio transcript" to read the text
+- Screen readers announce the summary button and can expand it to read the content
+- The content matches the audio source perfectly
