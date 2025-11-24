@@ -7,6 +7,16 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300|Sonsie+One" rel="stylesheet"
           type="text/css">
     <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .highlight {
+            background-color: yellow;
+            color: black;
+        }
+    </style>
 </head>
 
 <body>
@@ -23,6 +33,7 @@
         <li><a href="#">Blog</a></li>
     </ul>
 
+    <!-- SEARCH FIX: Added role and hidden label for accessibility -->
     <form class="search" role="search">
         <!-- FIX: Label is hidden visually but readable by screen readers -->
         <label for="search-query" class="visually-hidden">Search query</label>
@@ -33,6 +44,7 @@
 
 <main>
     <article>
+        <!-- SEMANTIC FIX: Changed font tags to h2/h3 -->
         <h2>The trouble with Bears</h2>
         <p>By Evan Wild</p>
 
@@ -41,9 +53,10 @@
 
         <h3>Types of bear</h3>
         <br><br>
+
+        <!-- TABLE FIX: Added caption and scope attributes for accessibility -->
         <table>
             <caption>Comparison of Wild and Urban Bear Characteristics</caption>
-
             <thead>
             <tr>
                 <th scope="col">Bear Type</th>
@@ -75,13 +88,15 @@
         </table>
 
         <h3>Habitats and Eating habits</h3>
-        <p>Wild bears eat a variety of meat, fish, fruit, nuts, and other naturally growing ingredients...</p>
-
+        <br><br>
+        Wild bears eat a variety of meat, fish, fruit, nuts, and other natually growing ingredients...
+        <br><br>
         <img src="./media/wild-bear.jpg" alt="Wild bear in forest">
-
-        <p>Urban (gentrified) bears on the other hand have largely abandoned the old ways...</p>
-
+        <br><br>
+        Urban (gentrified) bears on the other hand have largely abandoned the old ways...
+        <br><br>
         <img src="./media/urban-bear.jpg" alt="Urban bear near buildings">
+        <br><br>
 
         <h3>Mating rituals</h3>
         <p>Bears are romantic creatures by nature...</p>
@@ -92,6 +107,7 @@
             <p>It looks like your browser doesn't support HTML5 audio players.</p>
         </audio>
 
+        <!-- AUDIO FIX: Added transcript in details/summary -->
         <details>
             <summary>Show audio transcript</summary>
             <div class="transcript-content">
@@ -104,35 +120,8 @@
             <p>Evan Wild is an unemployed plumber from Doncaster...</p>
         </aside>
 
-        <section class="comments">
-            <button class="show-hide" type="button">Show comment</button>
-
-            <div class="comment-wrapper">
-                <h2>Add comment</h2>
-                <form class="comment-form">
-                    <div class="flex-pair">
-                        <!-- FIX: Wrapped text in label and matched 'for' with input 'id' -->
-                        <label for="name">Your name:</label>
-                        <input type="text" name="name" id="name" placeholder="Enter your name">
-                    </div>
-                    <div class="flex-pair">
-                        <label for="comment">Your comment:</label>
-                        <input type="text" name="comment" id="comment" placeholder="Enter your comment">
-                    </div>
-                    <div>
-                        <input type="submit" value="Submit comment">
-                    </div>
-                </form>
-
-                <h2>Comments</h2>
-                <ul class="comment-container">
-                    <li>
-                        <p>Bob Fossil</p>
-                        <p>Oh I am so glad you taught me all about the big brown angry guys...</p>
-                    </li>
-                </ul>
-            </div>
-        </section>
+        <!-- COMPONENT FIX: Replaced old comment section with custom element -->
+        <bear-comment-section></bear-comment-section>
 
         <section class="more_bears">
             <h3>More Bears</h3>

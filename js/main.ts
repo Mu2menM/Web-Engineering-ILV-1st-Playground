@@ -1,12 +1,15 @@
 import { initializeSearchHighlighter } from './search.js';
-import { initializeComments } from './comments.js';
+// Removed: import { initializeComments } from './comments.js';
 import { initializeBearData } from './bears.js';
+import './CommentSection.js'; // Import the Web Component
 
 document.addEventListener('DOMContentLoaded', (): void => {
   initializeSearchHighlighter();
-  initializeComments();
+  // Removed: initializeComments();
   initializeBearData();
 });
+
+console.log('App Initialized with Web Components');
 
 console.log('BAD PRACTICES ANALYSIS SUMMARY');
 console.table({
