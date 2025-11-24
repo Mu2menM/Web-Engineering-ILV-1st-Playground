@@ -1,5 +1,5 @@
 interface CommentElements {
-  showHideBtn: HTMLDivElement | null;
+  showHideBtn: HTMLButtonElement | null;
   commentWrapper: HTMLDivElement | null;
   form: HTMLFormElement | null;
   nameField: HTMLInputElement | null;
@@ -11,7 +11,7 @@ export const initializeComments = (): void => {
   console.log('Initializing comments system...');
 
   const elements: CommentElements = {
-    showHideBtn: document.querySelector<HTMLDivElement>('.show-hide'),
+    showHideBtn: document.querySelector<HTMLButtonElement>('.show-hide'),
     commentWrapper: document.querySelector<HTMLDivElement>('.comment-wrapper'),
     form: document.querySelector<HTMLFormElement>('.comment-form'),
     nameField: document.querySelector<HTMLInputElement>('#name'),
