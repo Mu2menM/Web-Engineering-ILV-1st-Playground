@@ -139,7 +139,17 @@ Additionally, refactor your project by encapsulating the comments section into a
 > 
 > _Present your findings here..._
 >
- 
+
+1. **Color Contrast:** Darkened text and lightened backgrounds to achieve a 4.5:1 contrast ratio (WCAG AA compliant)
+2. **Semantic Structure:** Replaced `<font>`/`<div>` tags with semantic `<h1>`-`<h3>`, `<nav>`, and `<header>` elements
+   to enable screen reader navigation
+3. **Audio:** Added a collapsible text transcript for hearing-impaired users
+4. **Forms:** Added accessible labels (visually hidden for search, linked for comments) to improve screen reader context
+5. **Keyboard Interaction:** Converted the comment toggle from a `<div>` to a `<button>` to support Tab focus and Enter
+   activation
+6. **Data Tables:** Added a `<caption>` and `<th>` scopes (row/col) to ensure data is correctly associated with headers
+7. **Web Components:** Refactored the comment section into a custom `<bear-comment-section>` element using Shadow DOM
+   for style encapsulation
 
 ## 4. Migrate to a Frontend Framework
 In this playground you will migrate your application to a frontend framework of your choice.
