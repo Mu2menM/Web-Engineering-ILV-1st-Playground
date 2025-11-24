@@ -38,8 +38,8 @@ label {
 font[size='7'] {
   font-size: 4rem;
   text-align: center;
-  color: white;
-  text-shadow: 2px 2px 10px black;
+  color: #2a2a2a; /* FIXED: Changed from white to dark gray for contrast */
+  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2); /* ADJUSTED: Softened shadow for dark text */
 }
 
 font[size='6'] {
@@ -64,7 +64,7 @@ div[class='nav'],
 article,
 footer,
 .secondary {
-  background-color: green;
+  background-color: white; /* FIXED: Changed from green to white for readability */
 }
 
 article,
@@ -79,7 +79,7 @@ article {
 
 div[class='nav'] {
   height: 50px;
-  background-color: ff80ff;
+  background-color: #ff80ff; /* FIXED: Added missing # */
   display: flex;
   padding: 1% 0;
   margin-bottom: 10px;
