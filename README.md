@@ -90,3 +90,80 @@ npm run format:check
 ## Deployment
 
 This project is ready for GitHub Pages:
+
+# Initialization of Angular Project
+
+# 1. Create the Angular 18 project (standalone, no routing, CSS)
+
+```bash
+ng new web-engineering-ilv-1st-playground-angular \
+--standalone \
+--routing=false \
+--style=css \
+--skip-git \
+--package-manager=npm
+```
+
+# 2. Install all professional tooling we ended up with
+
+```bash
+npm install --save-dev \
+eslint@^9.9.0 \
+@eslint/js \
+typescript-eslint@^8.8.0 \
+globals \
+eslint-plugin-prettier \
+eslint-config-prettier \
+prettier \
+husky@^9.1.6 \
+lint-staged@^15.2.10
+```
+
+# 3. Set up Husky the modern 2025 way
+
+```bash
+npm set-script prepare "husky"
+```
+
+# 4. Trigger Husky setup
+
+```bash
+npm run prepare
+```
+
+# 5. Create the pre-commit hook
+
+```bash
+mkdir -p .husky
+echo 'npx lint-staged' > .husky/pre-commit
+```
+
+# 6. Final verification commands
+
+```bash
+npm run dev          # starts dev server with live reload
+```
+
+```bash
+npm run lint         # shows ESLint working
+```
+
+```bash
+npm run lint:fix     # auto-fixes what it can
+```
+
+```bash
+npm run format       # formats everything with Prettier
+```
+
+```bash
+npm run build        # creates production bundle in dist/
+```
+
+# 7. Test the pre-commit hook
+
+echo "// test" >> src/app/app.component.ts
+git add .
+git commit -m "demo: husky auto-fixes everything"
+
+# → You’ll see lint-staged run + commit succeed automatically
