@@ -1,0 +1,21 @@
+<!-- src/app/nav/nav.component.html -->
+<nav class="nav">
+  <ul>
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Our team</a></li>
+    <li><a href="#">Projects</a></li>
+    <li><a href="#">Blog</a></li>
+  </ul>
+
+  <form class="search" role="search" (submit)="onSearch($event)">
+    <label for="search-query" class="visually-hidden">Search query</label>
+    <input
+      type="search"
+      name="q"
+      id="search-query"
+      placeholder="Search query"
+      [(ngModel)]="searchKey"
+    />
+    <input type="submit" value="Go!" />
+  </form>
+</nav>

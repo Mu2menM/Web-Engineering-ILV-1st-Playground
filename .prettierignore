@@ -1,5 +1,4 @@
-node_modules/
 dist/
-*.html
-media/
-*.md
+node_modules/
+coverage/
+*.log

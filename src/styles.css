@@ -15,6 +15,7 @@ body {
   width: 80%;
   min-width: 1024px;
   margin: 0 auto;
+  font-family: Arial, sans-serif;
 }
 
 /* || typography */
@@ -39,8 +40,8 @@ button {
 h1 {
   font-size: 4rem;
   text-align: center;
-  color: #2a2a2a; /* FIXED: Changed from white to dark gray for contrast */
-  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2); /* ADJUSTED: Softened shadow */
+  color: #2a2a2a;
+  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
   margin: 0;
   padding: 2rem 0;
 }
@@ -67,7 +68,7 @@ nav.nav,
 article,
 footer,
 .secondary {
-  background-color: white; /* FIXED: Changed from green to white for readability */
+  background-color: white;
 }
 
 article,
@@ -83,7 +84,7 @@ article {
 
 nav.nav {
   height: 50px;
-  background-color: #ff80ff; /* FIXED: Added missing # */
+  background-color: #ff80ff;
   display: flex;
   padding: 1% 0;
   margin-bottom: 10px;
@@ -117,6 +118,26 @@ nav.nav .search {
   height: 100%;
   padding: 0 2em;
   position: relative;
+}
+
+/* Search Highlight */
+mark.highlight {
+  background-color: #ffeb3b;
+  color: #000;
+  padding: 0 4px;
+  border-radius: 4px;
+  font-weight: bold;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    background-color: #ffeb3b;
+  }
+  50% {
+    background-color: #ffd700;
+  }
 }
 
 /* Utility class to hide content visually while keeping it accessible to screen readers */

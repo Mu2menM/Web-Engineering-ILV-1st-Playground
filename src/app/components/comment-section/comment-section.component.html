@@ -1,0 +1,49 @@
+<!-- src/app/comment-section/comment-section.component.html -->
+<div class="comments">
+  <button class="show-hide" type="button" (click)="toggleComments()">
+    {{ isVisible ? 'Hide comments' : 'Show comments' }}
+  </button>
+
+  <div class="comment-wrapper" *ngIf="isVisible">
+    <h2>Add comment</h2>
+
+    <form class="comment-form" (submit)="submitComment($event)">
+      <div class="flex-pair">
+        <label for="name">Your name:</label>
+        <input
+          type="text"
+          id="name"
+          placeholder="Enter your name"
+          required
+          [(ngModel)]="name"
+          name="name"
+        />
+      </div>
+
+      <div class="flex-pair">
+        <label for="comment">Your comment:</label>
+        <input
+          type="text"
+          id="comment"
+          placeholder="Enter your comment"
+          required
+          [(ngModel)]="comment"
+          name="comment"
+        />
+      </div>
+
+      <div>
+        <input type="submit" value="Submit comment" />
+      </div>
+    </form>
+
+    <h2>Comments</h2>
+
+    <ul class="comment-container">
+      <li *ngFor="let c of comments">
+        <p>{{ c.name }}</p>
+        <p>{{ c.text }}</p>
+      </li>
+    </ul>
+  </div>
+</div>

@@ -1,54 +1,64 @@
 {
-  "name": "web-engineering-ilv-1st-playground",
+  "name": "web-engineering-ilv-1st-playground-angular",
+  "type": "module",
   "version": "1.0.0",
   "description": "This repository is designed as the foundation for coding playgrounds in the Web Engineering course. It offers a structured space for experimenting with and mastering various web development technologies and practices. The project is based on [this](https://developer.mozilla.org/en-US/docs/Learn/Accessibility/Accessibility_troubleshooting) repository from MDN.",
-  "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc --noEmit && vite build",
-    "lint": "eslint ./js --ext .ts,.js",
-    "lint:fix": "eslint ./js --ext .ts,.js --fix",
-    "format": "prettier --write \"./js/**/*.{ts,js}\"",
-    "format:check": "prettier --check \"./js/**/*.{ts,js}\"",
-    "preview": "vite preview",
-    "serve": "vite preview",
+    "dev": "ng serve --port 3000 --open",
+    "build": "ng build --configuration production",
+    "lint": "eslint \"src/**/*.{ts,html}\"",
+    "lint:fix": "eslint \"src/**/*.{ts,html}\" --fix",
+    "format": "prettier --write \"src/**/*.{ts,html,css,scss,json}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,html,css,scss,json}\"",
+    "prepare": "husky",
+    "preview": "ng serve --configuration=production",
     "type-check": "tsc --noEmit",
     "clean": "rm -rf dist",
-    "build:production": "npm run clean && npm run type-check && npm run lint && npm run build",
-    "prepare": "husky",
-    "pre-commit": "lint-staged"
+    "build:production": "npm run clean && npm run type-check && npm run lint && ng build --configuration production"
   },
   "keywords": [
     "wildlife",
     "website",
     "typescript",
-    "vite"
+    "angular"
   ],
   "author": "",
   "license": "ISC",
+  "dependencies": {
+    "@angular/animations": "^18.0.0",
+    "@angular/common": "^18.0.0",
+    "@angular/compiler": "^18.0.0",
+    "@angular/core": "^18.0.0",
+    "@angular/forms": "^18.0.0",
+    "@angular/platform-browser": "^18.0.0",
+    "@angular/platform-browser-dynamic": "^18.0.0",
+    "@angular/router": "^18.0.0",
+    "rxjs": "~7.8.1",
+    "tslib": "^2.3.0",
+    "zone.js": "~0.14.10"
+  },
   "devDependencies": {
-    "vite": "^7.1.10",
-    "@vitejs/plugin-legacy": "^7.2.1",
-    "typescript": "^5.9.3",
+    "@angular-devkit/build-angular": "^18.0.0",
+    "@angular/cli": "^18.0.0",
+    "@angular/compiler-cli": "^18.0.0",
+    "@eslint/js": "^9.39.1",
     "@types/node": "^24.8.1",
-    "eslint": "^9.38.0",
-    "@eslint/js": "^9.38.0",
-    "@typescript-eslint/eslint-plugin": "^8.46.1",
-    "@typescript-eslint/parser": "^8.46.1",
+    "angular-eslint": "18.4.3",
+    "eslint": "^9.39.1",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
-    "prettier": "^3.6.2",
-    "husky": "^9.1.6",
-    "lint-staged": "^15.2.10",
-    "globals": "^16.4.0"
+    "globals": "^15.15.0",
+    "husky": "^9.1.7",
+    "jiti": "^2.6.1",
+    "lint-staged": "^15.5.2",
+    "prettier": "^3.7.3",
+    "typescript": "~5.4.5",
+    "typescript-eslint": "^8.48.1"
   },
   "lint-staged": {
-    "**/*.{ts,js}": [
+    "src/**/*.{ts,html,css,json}": [
       "prettier --write",
       "eslint --fix"
-    ],
-    "**/*.{json,md,html,css}": [
-      "prettier --write"
     ]
   }
 }

@@ -1,0 +1,12 @@
+.bear {
+  margin-bottom: 20px;
+  text-align: center;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.bear img {
+  border-radius: 5px;
+  margin-bottom: 10px;
+}

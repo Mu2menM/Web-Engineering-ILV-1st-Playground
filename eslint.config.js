@@ -1,54 +1,43 @@
 import js from '@eslint/js';
-import typescriptEslint from '@typescript-eslint/eslint-plugin';
-import tsParser from '@typescript-eslint/parser';
-import prettier from 'eslint-plugin-prettier';
+import tseslint from 'typescript-eslint';
+import prettierRecommended from 'eslint-plugin-prettier/recommended';
 import globals from 'globals';
 
-export default [
+export default tseslint.config(
+  { ignores: ['dist/**', 'node_modules/**', '*.spec.ts'] },
+  prettierRecommended,
+  js.configs.recommended,
+  ...tseslint.configs.recommended,
+  ...tseslint.configs.recommendedTypeChecked,
   {
-    files: ['**/*.js', '**/*.ts'],
     languageOptions: {
-      ecmaVersion: 'latest',
-      sourceType: 'module',
-      globals: {
-        ...globals.browser,
-        ...globals.es2020,
-      },
-    },
-    plugins: {
-      prettier,
-    },
-    rules: {
-      ...js.configs.recommended.rules,
-      'prettier/prettier': 'error',
-    },
-  },
-
-  // TypeScript specific configuration
-  {
-    files: ['**/*.ts'],
-    languageOptions: {
-      parser: tsParser,
+      globals: { ...globals.browser, ...globals.node },
       parserOptions: {
-        project: './tsconfig.json',
+        project: true,
         tsconfigRootDir: import.meta.dirname,
       },
     },
-    plugins: {
-      '@typescript-eslint': typescriptEslint,
-    },
+    files: ['**/*.ts', '**/*.tsx'],
     rules: {
-      ...typescriptEslint.configs.recommended.rules,
-      ...typescriptEslint.configs['recommended-requiring-type-checking'].rules,
-      '@typescript-eslint/no-unused-vars': 'error',
-      '@typescript-eslint/explicit-function-return-type': 'off',
+      '@typescript-eslint/no-unused-vars': 'warn',
+      '@typescript-eslint/explicit-function-return-type': 'warn',
+      '@typescript-eslint/explicit-module-boundary-types': 'warn',
+      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/consistent-type-definitions': ['error', 'interface'],
+      '@typescript-eslint/no-floating-promises': 'error',
+      '@typescript-eslint/await-thenable': 'error',
+      'no-console': 'off',
+      '@typescript-eslint/no-misused-promises': [
+        'error',
+        { checksVoidReturn: false },
+      ],
       '@typescript-eslint/strict-boolean-expressions': 'off',
-      '@typescript-eslint/no-floating-promises': 'off',
-      '@typescript-eslint/no-explicit-any': 'error',
-    },
-  },
 
-  {
-    ignores: ['dist/', 'node_modules/', '*.config.js', '**/*.config.js'],
-  },
-];
+      '@typescript-eslint/no-unsafe-assignment': 'warn',
+      '@typescript-eslint/no-unsafe-member-access': 'warn',
+      '@typescript-eslint/no-unsafe-argument': 'warn',
+      '@typescript-eslint/no-unsafe-call': 'warn',
+      '@typescript-eslint/no-unsafe-return': 'warn',
+    },
+  }
+);

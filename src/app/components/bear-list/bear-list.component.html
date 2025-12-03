@@ -1,0 +1,15 @@
+<div class="bear-list">
+  <div *ngIf="loading">Loading bears...</div>
+  <div *ngIf="error" style="color: red">Failed to load bears</div>
+  <div class="bear" *ngFor="let bear of bears">
+    <img
+      [src]="bear.imageUrl"
+      [alt]="'Image of ' + bear.name"
+      style="width: 200px; height: auto"
+    />
+    <p>
+      <b>{{ bear.name }}</b> ({{ bear.binomial }})
+    </p>
+    <p>Range: {{ bear.range }}</p>
+  </div>
+</div>

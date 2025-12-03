@@ -1,0 +1,104 @@
+<header class="header">
+  <h1>Welcome to our wildlife website</h1>
+</header>
+
+<app-nav></app-nav>
+
+<main>
+  <article #articleContent>
+    <h2>The trouble with Bears</h2>
+    <p>By Evan Wild</p>
+
+    <p>
+      Tall, lumbering, angry, dangerous. The real live bears of this world are
+      proud, independent creatures, self-serving and always on the hunt for
+      food.
+    </p>
+
+    <h3>Types of bear</h3>
+    <br /><br />
+
+    <table>
+      <caption>
+        Comparison of Wild and Urban Bear Characteristics
+      </caption>
+      <thead>
+        <tr>
+          <th scope="col">Bear Type</th>
+          <th scope="col">Coat</th>
+          <th scope="col">Adult size</th>
+          <th scope="col">Habitat</th>
+          <th scope="col">Lifespan</th>
+          <th scope="col">Diet</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">Wild</th>
+          <td>Brown or black</td>
+          <td>1.4 to 2.8 meters</td>
+          <td>Woods and forests</td>
+          <td>25 to 28 years</td>
+          <td>Fish, meat, plants</td>
+        </tr>
+        <tr>
+          <th scope="row">Urban</th>
+          <td>North Face</td>
+          <td>18 to 22</td>
+          <td>Condos and coffee shops</td>
+          <td>20 to 32 years</td>
+          <td>Starbucks, sushi</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Habitats and Eating habits</h3>
+    <br /><br />
+    Wild bears eat a variety of meat, fish, fruit, nuts, and other natually
+    growing ingredients...
+    <br /><br />
+    <img src="assets/media/wild-bear.jpg" alt="Wild bear in forest" />
+    <br /><br />
+    Urban (gentrified) bears on the other hand have largely abandoned the old
+    ways...
+    <br /><br />
+    <img src="assets/media/urban-bear.jpg" alt="Urban bear near buildings" />
+    <br /><br />
+
+    <h3>Mating rituals</h3>
+    <p>Bears are romantic creatures by nature...</p>
+
+    <audio controls>
+      <source src="assets/media/bear.mp3" type="audio/mp3" />
+      <source src="assets/media/bear.ogg" type="audio/ogg" />
+      <p>It looks like your browser doesn't support HTML5 audio players.</p>
+    </audio>
+
+    <details>
+      <summary>Show audio transcript</summary>
+      <div class="transcript-content">
+        <p>
+          "This isn't really an audio fact file about bears, but it is an audio
+          file that you can transcribe."
+        </p>
+      </div>
+    </details>
+    <aside>
+      <h3>About the author</h3>
+      <p>Evan Wild is an unemployed plumber from Doncaster...</p>
+    </aside>
+
+    <app-comment-section></app-comment-section>
+
+    <section class="more_bears">
+      <h3>More Bears</h3>
+      <app-bear-list></app-bear-list>
+    </section>
+  </article>
+
+  <app-secondary></app-secondary>
+</main>
+
+<footer>
+  <p>©Copyright 2050 by nobody. All rights reversed.</p>
+</footer>
