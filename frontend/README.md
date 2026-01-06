@@ -161,9 +161,9 @@ npm run build        # creates production bundle in dist/
 ```
 
 # 7. Test the pre-commit hook
-
+```
 echo "// test" >> src/app/app.component.ts
 git add .
 git commit -m "demo: husky auto-fixes everything"
+```
 
-# → You’ll see lint-staged run + commit succeed automatically

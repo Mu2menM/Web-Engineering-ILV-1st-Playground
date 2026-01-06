@@ -10,11 +10,9 @@
     "lint:fix": "eslint \"src/**/*.{ts,html}\" --fix",
     "format": "prettier --write \"src/**/*.{ts,html,css,scss,json}\"",
     "format:check": "prettier --check \"src/**/*.{ts,html,css,scss,json}\"",
-    "prepare": "husky",
     "preview": "ng serve --configuration=production",
     "type-check": "tsc --noEmit",
-    "clean": "rm -rf dist",
-    "build:production": "npm run clean && npm run type-check && npm run lint && ng build --configuration production"
+    "clean": "rm -rf dist"
   },
   "keywords": [
     "wildlife",
@@ -48,17 +46,9 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
     "globals": "^15.15.0",
-    "husky": "^9.1.7",
     "jiti": "^2.6.1",
-    "lint-staged": "^15.5.2",
     "prettier": "^3.7.3",
     "typescript": "~5.4.5",
     "typescript-eslint": "^8.48.1"
-  },
-  "lint-staged": {
-    "src/**/*.{ts,html,css,json}": [
-      "prettier --write",
-      "eslint --fix"
-    ]
   }
 }

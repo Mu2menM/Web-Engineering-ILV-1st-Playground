@@ -20,6 +20,6 @@ import { BearListComponent } from './components/bear-list/bear-list.component';
 })
 export class AppComponent implements AfterViewInit {
   ngAfterViewInit(): void {
-    console.log('Wildlife Website Loaded — Search & Comments Ready!');
+    console.debug('Wildlife Website Loaded — Search & Comments Ready!');
   }
 }
