@@ -8,7 +8,11 @@ const PORT = 3001;
 // 1. CONFIGURATION
 // =================================================================
 
-const allowedOrigins = ['http://localhost:3000', 'http://localhost'];
+const allowedOrigins = [
+  'http://localhost:4200', // Angular dev server
+  'http://localhost:3000', // For running locally outside container
+  'http://localhost'
+];
 
 const corsOptions = {
   origin: function (origin, callback) {

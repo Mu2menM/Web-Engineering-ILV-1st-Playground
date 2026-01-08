@@ -2,28 +2,6 @@
 
 **A stunning, fully functional wildlife website built with modern Angular 18 + TypeScript + ESLint + Prettier + Husky**
 
-## Project Structure
-
-````
-src/
-├── app/
-│   ├── components/
-│   │   ├── bear-list/         Real Wikipedia bears
-│   │   ├── comment-section/   Add & toggle comments
-│   │   ├── nav/               Search bar
-│   │   └── secondary/
-│   ├── services/
-│   │   ├── bear.service.ts    Wikipedia parsing + image resolving
-│   │   └── search.service.ts  Perfect vanilla-style search
-│   └── models/
-│       ├── bear.model.ts
-│       └── comment.model.ts
-├── assets/
-├── environments/
-├── styles.css
-└── index.html
-````
-
 ## Available Scripts
 
 ### Development server (hot reload)
@@ -89,81 +67,157 @@ npm run format:check
 
 ## Deployment
 
-This project is ready for GitHub Pages:
+This project is ready for GitHub Pages.
 
-# Initialization of Angular Project
+---
 
-# 1. Create the Angular 18 project (standalone, no routing, CSS)
+# Docker Setup
+
+This project comes with **Dockerfiles** and **Docker Compose** for both backend (ExpressJS) and frontend (Angular). You can run them locally in development or production.
+
+---
+
+## Environment Variables
+
+Create a `.env` file in the project root:
+
+```env
+# Backend
+BACKEND_PORT=3001
+
+# Frontend
+FRONTEND_PORT=4200
+
+# API URL for frontend to reach backend
+API_URL=http://localhost:3001
+```
+
+---
+
+## Docker Compose – Development
+
+**docker-compose.dev.yml** orchestrates hot-reload development containers:
+
+```yaml
+services:
+  backend:
+    build:
+      context: ./backend
+      target: development
+    container_name: backend-dev
+    ports:
+      - "${BACKEND_PORT}:3001"
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+    command: npm run dev
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      target: dev
+    container_name: frontend-dev
+    ports:
+      - "${FRONTEND_PORT}:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - API_URL=${API_URL}
+    command: npm run dev
+    restart: unless-stopped
+```
+
+**Start development environment:**
 
 ```bash
-ng new web-engineering-ilv-1st-playground-angular \
---standalone \
---routing=false \
---style=css \
---skip-git \
---package-manager=npm
+docker compose -f docker-compose.dev.yml up --build
 ```
 
-# 2. Install all professional tooling we ended up with
+* Frontend: `http://localhost:4200`
+* Backend: `http://localhost:3001`
+* Both support hot reload.
+
+---
+
+## Docker Compose – Production
+
+**docker-compose.prod.yml** orchestrates production-ready containers:
+
+```yaml
+services:
+  backend:
+    build:
+      context: ./backend
+      target: production
+    container_name: backend-prod
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      target: prod
+    container_name: frontend-prod
+    ports:
+      - "80:80"
+    environment:
+      - NODE_ENV=production
+      - API_URL=http://localhost:3001
+    restart: unless-stopped
+```
+
+**Start production environment:**
 
 ```bash
-npm install --save-dev \
-eslint@^9.9.0 \
-@eslint/js \
-typescript-eslint@^8.8.0 \
-globals \
-eslint-plugin-prettier \
-eslint-config-prettier \
-prettier \
-husky@^9.1.6 \
-lint-staged@^15.2.10
+docker compose -f docker-compose.prod.yml up --build -d
 ```
 
-# 3. Set up Husky the modern 2025 way
+* Frontend: `http://localhost`
+* Backend: `http://localhost:3001`
+* Optimized production builds with only necessary dependencies.
+
+---
+
+## Running Docker Images Individually
+
+### Backend
 
 ```bash
-npm set-script prepare "husky"
+# Build
+docker build -t bear-backend ./backend
+
+# Run
+docker run -p 3001:3001 -d bear-backend
 ```
 
-# 4. Trigger Husky setup
+### Frontend
 
 ```bash
-npm run prepare
+# Build
+docker build -t wildlife-frontend ./frontend
+
+# Run
+docker run -p 80:80 -d wildlife-frontend
 ```
 
-# 5. Create the pre-commit hook
+**Optional dev frontend port mapping:**
 
 ```bash
-mkdir -p .husky
-echo 'npx lint-staged' > .husky/pre-commit
+docker run -p 4200:80 -d wildlife-frontend
 ```
 
-# 6. Final verification commands
+---
 
-```bash
-npm run dev          # starts dev server with live reload
-```
+## Notes
 
-```bash
-npm run lint         # shows ESLint working
-```
-
-```bash
-npm run lint:fix     # auto-fixes what it can
-```
-
-```bash
-npm run format       # formats everything with Prettier
-```
-
-```bash
-npm run build        # creates production bundle in dist/
-```
-
-# 7. Test the pre-commit hook
-```
-echo "// test" >> src/app/app.component.ts
-git add .
-git commit -m "demo: husky auto-fixes everything"
-```
-
+* Backend must allow **CORS** for frontend dev server (`http://localhost:4200`) in development:
+* Ensure `.env` variables match ports in `docker-compose` files.
+* Hot reload works via volume mounts in dev mode.

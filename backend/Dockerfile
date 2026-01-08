@@ -1,26 +1,28 @@
-# Stage 1: Build/Setup
-FROM node:20-alpine AS build
-
+# Stage 1: Development
+# Used for docker-compose.dev.yml
+FROM node:20-alpine AS development
 WORKDIR /app
-
-# Copy package files
 COPY package*.json ./
+# Install ALL dependencies (including devDependencies)
+RUN npm install
+COPY . .
+EXPOSE 3001
+# You can use "npm run dev" if you have nodemon, otherwise "node server.js"
+CMD ["node", "server.js"]
 
-# Install production dependencies only
+# Stage 2: Build (Setup for Production)
+FROM node:20-alpine AS build
+WORKDIR /app
+COPY package*.json ./
+# Install only production dependencies
 RUN npm ci --only=production
-
-# Copy server code
 COPY . .
 
-# Stage 2: Production Runner
-FROM node:20-alpine
-
+# Stage 3: Production Runner
+# Used for docker-compose.prod.yml
+FROM node:20-alpine AS production
 WORKDIR /app
-
-# Copy built node_modules and source from previous stage
+# Copy dependencies and code from the build stage
 COPY --from=build /app .
-
-# Expose the port defined in server.js
 EXPOSE 3001
-
 CMD ["node", "server.js"]
