@@ -218,6 +218,5 @@ docker run -p 4200:80 -d wildlife-frontend
 
 ## Notes
 
-* Backend must allow **CORS** for frontend dev server (`http://localhost:4200`) in development:
 * Ensure `.env` variables match ports in `docker-compose` files.
 * Hot reload works via volume mounts in dev mode.
